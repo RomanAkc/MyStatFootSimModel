@@ -5,13 +5,10 @@
 class COutcomeProbabilities
 {
 private:
-    std::vector<int> m_ProbWin;
-    std::vector<int> m_ProbDraw;
+    static std::vector<int> m_ProbWin;
+    static std::vector<int> m_ProbDraw;
 
 public:
-    COutcomeProbabilities();
-
-//For get data
-    int getProbWin(int nIndex) const;
-    int getProbDraw(int nIndex) const;
+    static int getProbWin(int nIndex);
+    static int getProbDraw(int nIndex);
 };

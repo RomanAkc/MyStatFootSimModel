@@ -11,7 +11,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     Model/matchresult.cpp \
-    Model/outcomeProbabilities.cpp
+    Model/outcomeProbabilities.cpp \
+    Model/result.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -27,4 +28,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     Model/goals.h \
     Model/matchresult.h \
-    Model/outcomeProbabilities.h
+    Model/outcomeProbabilities.h \
+    Model/result.h

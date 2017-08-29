@@ -2,22 +2,15 @@
 #include <iostream>
 #include <string>
 
-#include "Model/goals.h"
-#include "Model/matchresult.h"
-#include "Model/outcomeProbabilities.h"
+#include "Model/result.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    CGoals goal;
-    CMatchResult mr;
-    COutcomeProbabilities op;
-
-    mr.setGoalsAddTime(goal);
-    int nProbDraw = op.getProbDraw(1);
-
-    std::cout<<nProbDraw<<std::endl;
+    CMatchResult res = CResult::getResult(0, false);
+    std::cout<<res.getGoalsFullTime().GetGoalHome()<<" : "<<res.getGoalsFullTime().GetGoalAway();
+    std::cout<<std::endl;
 
     std::string sTemp = "lalala";
     std::cout<<sTemp;
