@@ -1,14 +1,29 @@
 #pragma once
 #include <random>
+#include <map>
 #include "matchresult.h"
 
 class CResult
 {
 private:
+    static bool m_bResultInited;
+    static std::map<std::pair<int, int>, int> m_mapProbGoalDiff;
     static std::random_device rd;
     static std::mt19937 generator;
-    static std::uniform_int_distribution<> dist;
+    static std::uniform_int_distribution<> dist10000;
+
+
+    enum EWinner
+    {
+        WIN_HOME        = 0,
+        WIN_AWAY        ,
+        DRAW            ,
+    };
 
 public:
     static CMatchResult getResult(int nDiffPower, bool bWithPenalty = false);
+
+private:
+    static void InitResult();
+    static EWinner GetWinnerHome(int nDiffPower); //to do: переписать возвращаемое значение на std::optional
 };
