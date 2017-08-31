@@ -18,6 +18,11 @@ public:
     {
     }
 
+    CGoals(const CGoals& rhs)
+        : m_nGoalHome(rhs.m_nGoalHome), m_nGoalAway(rhs.m_nGoalAway)
+    {
+    }
+
     int GetGoalHome() const { return m_nGoalHome; }
     int GetGoalAway() const { return m_nGoalAway; }
 };

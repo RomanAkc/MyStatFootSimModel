@@ -8,6 +8,8 @@ class CResult
 private:
     static bool m_bResultInited;
     static std::map<std::pair<int, int>, int> m_mapProbGoalDiff;
+    static std::map<int, int> m_mapProbGoalDraw;
+    static std::map<int, int> m_mapProbGoalLoseTeam;
     static std::random_device rd;
     static std::mt19937 generator;
     static std::uniform_int_distribution<> dist10000;
@@ -25,5 +27,6 @@ public:
 
 private:
     static void InitResult();
-    static EWinner GetWinnerHome(int nDiffPower); //to do: переписать возвращаемое значение на std::optional
+    static EWinner GetWinner(int nDiffPower); //to do: переписать возвращаемое значение на std::optional
+    static CGoals GetGoals(int nDiffPower, EWinner winner);
 };

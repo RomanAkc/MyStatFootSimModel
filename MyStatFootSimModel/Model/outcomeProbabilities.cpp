@@ -11,7 +11,7 @@ const std::vector<int> COutcomeProbabilities::m_ProbDraw =
     1400, 1350, 1300, 1250, 1200, 1150, 1100, 1050, 1000, 950,
     900, 850, 700, 550, 400, 350, 100, 50, 25, 15, 10, 5, 2, 1};
 
-const std::map<int, std::vector<int>> m_ProbGoalDiff =
+const std::map<int, std::vector<int>> COutcomeProbabilities::m_ProbGoalDiff =
     {
     { 0, {6000, 2500, 1000,  450,   40,    5,    3,    1,    1,    0,    0,    0,    0,    0,    0}},
     { 1, {5500, 2750, 1250,  450,   40,    5,    3,    1,    1,    0,    0,    0,    0,    0,    0}},
@@ -46,6 +46,12 @@ const std::map<int, std::vector<int>> m_ProbGoalDiff =
     {30, { 500, 1500, 3300, 2500, 1100,  625,  348,  118,    3,    1,    1,    1,    1,    1,    1}},
     };
 
+const std::map<int, int> COutcomeProbabilities::m_ProbGoalDraw =
+    { {0, 4500},  {1, 4000}, {2, 1000}, {3,  300}, {4,  170}, {5,   28}, {6,    1}, {7,    1}, };
+
+const std::map<int, int> COutcomeProbabilities::m_ProbGoalLoseTeam =
+    { {0, 5000},  {1, 4000}, {2,  700}, {3,  200}, {4,   70}, {5,   28}, {6,    1}, {7,    1}, };
+
 int COutcomeProbabilities::getProbWin(int nIndex)
 {
     if((nIndex < 0))
@@ -62,7 +68,17 @@ int COutcomeProbabilities::getProbDraw(int nIndex)
     return m_ProbDraw[nIndex > 30 ? 30 : nIndex];
 }
 
-const std::map<int, std::vector<int>>& COutcomeProbabilities::getProbGoalDiff()
+const std::map<int, std::vector<int>> COutcomeProbabilities::getProbGoalDiff()
 {
     return m_ProbGoalDiff;
+}
+
+const std::map<int, int>& COutcomeProbabilities::getProbGoalDraw()
+{
+    return m_ProbGoalDraw;
+}
+
+const std::map<int, int>& COutcomeProbabilities::getProbGoalLoseTeam()
+{
+    return m_ProbGoalLoseTeam;
 }

@@ -12,6 +12,7 @@ private:
 public:
     CMatchResult();
     CMatchResult(int nGoalHome, int nGoalAway);
+    CMatchResult(CGoals gFullTime);
 
     void setGoalsFullTime(const CGoals& gFullTime);
     void setGoalsAddTime(const CGoals& gAddTime);

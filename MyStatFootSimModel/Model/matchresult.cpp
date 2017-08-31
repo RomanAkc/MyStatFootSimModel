@@ -8,7 +8,11 @@ CMatchResult::CMatchResult()
 CMatchResult::CMatchResult(int nGoalHome, int nGoalAway)
     : m_gFullTime(nGoalHome, nGoalAway), m_gAddTime(), m_gPenalty(), m_bPenalty(false)
 {
+}
 
+CMatchResult::CMatchResult(CGoals gFullTime)
+    : m_gFullTime(gFullTime), m_gAddTime(), m_gPenalty(), m_bPenalty(false)
+{
 }
 
 
