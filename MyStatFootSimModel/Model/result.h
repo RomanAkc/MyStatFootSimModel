@@ -23,10 +23,13 @@ private:
     };
 
 public:
-    static CMatchResult getResult(int nDiffPower, bool bWithPenalty = false);
+    static CMatchResult getResult(int nDiffPower, bool bUseHomeAway = true
+            , bool bNeedWinner = false, const CMatchResult* pFirstResult = nullptr);
+    static std::pair<CMatchResult, CMatchResult> getPairResult(int nDiffPower);
 
 private:
     static void InitResult();
-    static EWinner GetWinner(int nDiffPower); //to do: переписать возвращаемое значение на std::optional
+    static EWinner GetWinner(int nDiffPower, bool bUseHomeAway); //to do: переписать возвращаемое значение на std::optional
     static CGoals GetGoals(int nDiffPower, EWinner winner);
+    static CGoals GetPenalty();
 };

@@ -10,20 +10,74 @@ std::random_device CResult::rd;
 std::mt19937 CResult::generator(rd());
 std::uniform_int_distribution<> CResult::dist10000(1, 10000);
 
-CMatchResult CResult::getResult(int nDiffPower, bool bWithPenalty /*= false*/)
+CMatchResult CResult::getResult(int nDiffPower, bool bUseHomeAway /*= true*/
+                                , bool bNeedWinner /*= false*/, const CMatchResult* pFirstResult /*= nullptr*/)
 {
     if(!m_bResultInited)
         InitResult();
-
-    CResult::EWinner winner = GetWinner(nDiffPower);
+    
+    auto funcCheckIsEndResult = [](const CMatchResult& result, const CMatchResult& firstResult, bool bUseAddTime)->bool
+    {
+        int nGoalsHome = result.getGoalsFullTime().GetGoalHome() + firstResult.getGoalsFullTime().GetGoalAway();
+        int nGoalsAway = result.getGoalsFullTime().GetGoalAway() + firstResult.getGoalsFullTime().GetGoalHome();
+        
+        if(bUseAddTime)
+        {
+            nGoalsHome += result.getGoalsAddTime().GetGoalHome();
+            nGoalsAway += result.getGoalsAddTime().GetGoalAway();
+        }
+        
+        if(nGoalsHome != nGoalsAway)
+            return true;
+        
+        if(bUseAddTime)
+        {
+            if(result.getGoalsFullTime().GetGoalAway() + result.getGoalsAddTime().GetGoalAway() != firstResult.getGoalsFullTime().GetGoalAway())
+                return true;             
+        }
+        else 
+        {
+            if(result.getGoalsFullTime().GetGoalAway() != firstResult.getGoalsFullTime().GetGoalAway())
+                return true;
+        }
+        
+        return false;
+    };
+    
+    CResult::EWinner winner = GetWinner(nDiffPower, bUseHomeAway);
     CMatchResult result(CResult::GetGoals(nDiffPower, winner));
 
-    if(bWithPenalty && winner == CResult::DRAW)
+    if(bNeedWinner)
     {
-        ;
+        if(pFirstResult)
+        {
+            if(funcCheckIsEndResult(result, *pFirstResult, false))
+                return result;
+        }
+        else if(winner != CResult::DRAW)
+            return result;
+        
+        winner = GetWinner(nDiffPower, false);
+        result.setGoalsAddTime(CResult::GetGoals(nDiffPower, winner));
+        
+        if(pFirstResult)
+        {
+            if(funcCheckIsEndResult(result, *pFirstResult, true))
+                return result;
+        }
+        else if(winner != CResult::DRAW)
+            return result;
+        
+        result.setGoalsPenalty(CResult::GetPenalty());
     }
 
     return result;
+}
+
+std::pair<CMatchResult, CMatchResult> CResult::getPairResult(int nDiffPower)
+{
+    CMatchResult result1 = CResult::getResult(nDiffPower);
+    return std::move(std::make_pair(result1, CResult::getResult(nDiffPower, true, true, &result1)));
 }
 
 void CResult::InitResult()
@@ -79,22 +133,48 @@ void CResult::InitResult()
     m_bResultInited = true;
 }
 
-CResult::EWinner CResult::GetWinner(int nDiffPower)
+CResult::EWinner CResult::GetWinner(int nDiffPower, bool bUseHomeAway)
 {
     int nRandom = dist10000(generator);
-    int nProbWin = COutcomeProbabilities::getProbWin(nDiffPower);
+    if(bUseHomeAway)
+    {
+        if(nDiffPower >= 0)
+            nRandom -= 1500;
+        else 
+            nRandom += 1500;
+        
+        if(nRandom < 1)
+            nRandom = 1;
+        
+        if(nRandom > 10000)
+            nRandom = 10000;
+    }
+    
+    int nProbWin = COutcomeProbabilities::getProbWin(abs(nDiffPower));
     if(nRandom <= nProbWin)
-        return CResult::WIN_HOME;
+    {
+        if(nDiffPower >= 0)
+            return CResult::WIN_HOME;
+        else 
+            return CResult::WIN_AWAY;
+    }
 
-    int nProbDraw = COutcomeProbabilities::getProbDraw(nDiffPower);
+    int nProbDraw = COutcomeProbabilities::getProbDraw(abs(nDiffPower));
     if(nRandom > nProbWin + nProbDraw)
-        return CResult::WIN_AWAY;
+    {
+        if(nDiffPower >= 0)
+            return CResult::WIN_AWAY;
+        else 
+            return CResult::WIN_HOME;
+    }
 
     return CResult::DRAW;
 }
 
 CGoals CResult::GetGoals(int nDiffPower, EWinner winner)
 {
+    nDiffPower = abs(nDiffPower);
+    
     int nRandom = dist10000(generator);
 
     if(winner == CResult::DRAW)
@@ -137,5 +217,45 @@ CGoals CResult::GetGoals(int nDiffPower, EWinner winner)
         return CGoals(nGoalWinTeam, nGoalLoseTeam);
 
     return CGoals(nGoalLoseTeam, nGoalWinTeam);
+}
 
+CGoals CResult::GetPenalty()
+{
+    auto funcGetKickGoal = []()
+    {
+        int nRandom = dist10000(generator);
+        if(nRandom <= 7500)
+            return true;
+        
+        return false;
+    };
+    
+    int nRound = 1, nGoalHome = 0, nGoalAway = 0;
+    while (true) 
+    {
+        nGoalHome += funcGetKickGoal() ? 1 : 0;
+        
+        if(nRound > 2 && nRound <= 5)
+        {
+            if(nGoalHome - nGoalAway > 5 - nRound + 1)
+                break;   
+            if(nGoalAway - nGoalHome > 5 - nRound)
+                break;
+        }
+        
+        nGoalAway += funcGetKickGoal() ? 1 : 0;
+        
+        if(nRound > 2 && nRound <= 5)
+        {
+            if(abs(nGoalHome - nGoalAway) > 5 - nRound)
+                break;
+        }
+        
+        if(nRound > 5 && nGoalHome != nGoalAway)
+            break;
+        
+        nRound++;
+    }
+    
+    return CGoals(nGoalHome, nGoalAway);
 }
