@@ -14,7 +14,6 @@ private:
     static std::mt19937 generator;
     static std::uniform_int_distribution<> dist10000;
 
-
     enum EWinner
     {
         WIN_HOME        = 0,

@@ -24,7 +24,6 @@ void CMatchResult::setGoalsFullTime(const CGoals& gFullTime)
 void CMatchResult::setGoalsAddTime(const CGoals& gAddTime)
 {
     m_gAddTime = gAddTime;
-    m_bPenalty = true;
 }
 
 void CMatchResult::setGoalsPenalty(const CGoals& gPenalty)
@@ -41,6 +40,12 @@ const CGoals& CMatchResult::getGoalsFullTime() const
 const CGoals& CMatchResult::getGoalsAddTime() const
 {
     return m_gAddTime;
+}
+
+CGoals CMatchResult::getGoalsAll() const
+{
+    return CGoals(m_gFullTime.GetGoalHome() + m_gAddTime.GetGoalHome(),
+                  m_gFullTime.GetGoalAway() + m_gAddTime.GetGoalAway());
 }
 
 const CGoals& CMatchResult::getGoalsPenalty() const

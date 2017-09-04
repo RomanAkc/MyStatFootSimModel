@@ -77,7 +77,7 @@ CMatchResult CResult::getResult(int nDiffPower, bool bUseHomeAway /*= true*/
 std::pair<CMatchResult, CMatchResult> CResult::getPairResult(int nDiffPower)
 {
     CMatchResult result1 = CResult::getResult(nDiffPower);
-    return std::move(std::make_pair(result1, CResult::getResult(nDiffPower, true, true, &result1)));
+    return std::move(std::make_pair(result1, CResult::getResult(nDiffPower * (-1), true, true, &result1)));
 }
 
 void CResult::InitResult()

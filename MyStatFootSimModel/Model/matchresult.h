@@ -20,6 +20,7 @@ public:
 
     const CGoals& getGoalsFullTime() const;
     const CGoals& getGoalsAddTime() const;
+    CGoals getGoalsAll() const;
     const CGoals& getGoalsPenalty() const;
     bool GetPenalty() const;
 };
