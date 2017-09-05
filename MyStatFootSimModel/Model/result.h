@@ -1,34 +1,38 @@
 #pragma once
-#include <random>
-#include <map>
-#include "matchresult.h"
+#include "goals.h"
 
 class CResult
 {
 private:
-    static bool m_bResultInited;
-    static std::map<std::pair<int, int>, int> m_mapProbGoalDiff;
-    static std::map<int, int> m_mapProbGoalDraw;
-    static std::map<int, int> m_mapProbGoalLoseTeam;
-    static std::random_device rd;
-    static std::mt19937 generator;
-    static std::uniform_int_distribution<> dist10000;
+    CGoals m_gFullTime;
+    CGoals m_gAddTime;
+    CGoals m_gPenalty;
+    bool m_bExistResult;
+    bool m_bAddTime;
+    bool m_bPenalty;
 
+public:
     enum EWinner
     {
         WIN_HOME        = 0,
         WIN_AWAY        ,
         DRAW            ,
+        NO_RESULT       ,
     };
+    
+    CResult();
+    CResult(int nGoalHome, int nGoalAway);
+    CResult(CGoals gFullTime);
 
-public:
-    static CMatchResult getResult(int nDiffPower, bool bUseHomeAway = true
-            , bool bNeedWinner = false, const CMatchResult* pFirstResult = nullptr);
-    static std::pair<CMatchResult, CMatchResult> getPairResult(int nDiffPower);
+    void setGoalsFullTime(const CGoals& gFullTime);
+    void setGoalsAddTime(const CGoals& gAddTime);
+    void setGoalsPenalty(const CGoals& gPenalty);
 
-private:
-    static void InitResult();
-    static EWinner GetWinner(int nDiffPower, bool bUseHomeAway); //to do: переписать возвращаемое значение на std::optional
-    static CGoals GetGoals(int nDiffPower, EWinner winner);
-    static CGoals GetPenalty();
+    const CGoals& getGoalsFullTime() const;
+    const CGoals& getGoalsAddTime() const;
+    CGoals getGoalsAll() const;
+    const CGoals& getGoalsPenalty() const;
+    bool GetAddTime() const;
+    bool GetPenalty() const;
+    EWinner GetWinner() const;
 };

@@ -1,16 +1,16 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <string>
-#include <windows.h>
+//#include <windows.h>
 
-#include "Model/result.h"
+#include "Model/calcresult.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); 
+    //SetConsoleCP(1251);
+    //SetConsoleOutputCP(1251); 
     
     /*for(int i = 0; i < 50; ++i)
     {
@@ -61,13 +61,29 @@ int main(int argc, char *argv[])
         std::cout<<std::endl;
     }*/
     
-    for(int i = 0; i < 200; ++i)
+    /*for(int i = 0; i < 200; ++i)
     {
-        auto res = CResult::getPairResult(10);
+        auto res = CCalcResult::getPairResult(30);
         std::cout<<"Inter-Juve "<<res.first.getGoalsAll().GetGoalHome()<<" : "<<res.first.getGoalsAll().GetGoalAway();
         std::cout<<" "<<res.second.getGoalsAll().GetGoalAway()<<" : "<<res.second.getGoalsAll().GetGoalHome();
         if(res.second.GetPenalty())
             std::cout<<" pen "<<res.second.getGoalsPenalty().GetGoalAway()<<" : "<<res.second.getGoalsPenalty().GetGoalHome();
+        std::cout<<std::endl;
+    }*/
+    
+    for(int i = 0; i < 200; ++i)
+    {
+        auto res = CCalcResult::getPairResult(0);
+        std::cout<<"Inter-Juve "<<res.first.getGoalsAll().GetGoalHome()<<" : "<<res.first.getGoalsAll().GetGoalAway();
+        std::cout<<" "<<res.second.getGoalsAll().GetGoalAway()<<" : "<<res.second.getGoalsAll().GetGoalHome();
+        if(res.second.GetPenalty())
+            std::cout<<" pen "<<res.second.getGoalsPenalty().GetGoalAway()<<" : "<<res.second.getGoalsPenalty().GetGoalHome();
+        std::cout<<" [Winner ";
+        if(CCalcResult::getWinner(res) == CResult::WIN_HOME)
+            std::cout<<"Inter";
+        else 
+            std::cout<<"Juve ";
+        std::cout<<"]";
         std::cout<<std::endl;
     }
     
