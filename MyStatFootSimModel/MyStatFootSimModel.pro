@@ -12,7 +12,8 @@ TEMPLATE = app
 SOURCES += main.cpp \
     Model/outcomeProbabilities.cpp \
     Model/result.cpp \
-    Model/calcresult.cpp
+    Model/calcresult.cpp \
+    Model/team.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -29,4 +30,5 @@ HEADERS += \
     Model/goals.h \
     Model/outcomeProbabilities.h \
     Model/result.h \
-    Model/calcresult.h
+    Model/calcresult.h \
+    Model/team.h

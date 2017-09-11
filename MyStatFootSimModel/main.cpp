@@ -1,9 +1,9 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <string>
-//#include <windows.h>
 
 #include "Model/calcresult.h"
+#include "Model/team.h"
 
 int main(int argc, char *argv[])
 {
@@ -71,21 +71,28 @@ int main(int argc, char *argv[])
         std::cout<<std::endl;
     }*/
     
+    CClub club1("Real Madrid", 30, "Spain", EUROPE);
+    CClub club2("Chelsea    ", 30, "England", EUROPE);
     for(int i = 0; i < 200; ++i)
     {
-        auto res = CCalcResult::getPairResult(0);
-        std::cout<<"Inter-Juve "<<res.first.getGoalsAll().GetGoalHome()<<" : "<<res.first.getGoalsAll().GetGoalAway();
+        auto res = CCalcResult::getPairResult(club1.GetPower() - club2.GetPower());
+        std::cout<<club1.GetName()<<" - "<<club2.GetName()<<" ";
+        std::cout<<res.first.getGoalsAll().GetGoalHome()<<" : "<<res.first.getGoalsAll().GetGoalAway();
         std::cout<<" "<<res.second.getGoalsAll().GetGoalAway()<<" : "<<res.second.getGoalsAll().GetGoalHome();
         if(res.second.GetPenalty())
             std::cout<<" pen "<<res.second.getGoalsPenalty().GetGoalAway()<<" : "<<res.second.getGoalsPenalty().GetGoalHome();
         std::cout<<" [Winner ";
         if(CCalcResult::getWinner(res) == CResult::WIN_HOME)
-            std::cout<<"Inter";
+            std::cout<<club1.GetName();
         else 
-            std::cout<<"Juve ";
+            std::cout<<club2.GetName();
         std::cout<<"]";
         std::cout<<std::endl;
     }
+    
+
+    
+    
     
     
 

@@ -19,7 +19,7 @@ private:
 public:    
     static CResult getResult(int nDiffPower, bool bUseHomeAway = true
             , bool bNeedWinner = false, const CResult* pFirstResult = nullptr);
-    static  CPairResult getPairResult(int nDiffPower);
+    static CPairResult getPairResult(int nDiffPower);
     static CResult::EWinner getWinner(const CResult& result);
     static CResult::EWinner getWinner(const CPairResult& result);
 
