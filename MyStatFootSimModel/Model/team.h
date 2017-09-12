@@ -1,80 +1,47 @@
 #pragma once
 #include <string>
-#include <map>
-#include <list>
 
-enum ERegion
-{
-    EUROPE                  = 0,
-    SOUTH_AMERICA           ,
-    NORD_AMERICA            ,
-    AFRICA                  ,
-    ASIA                    ,
-    OCEANIA                 ,
-};
-
-class CCountry
-{
-private:
-    static int m_nNextID;
-    int m_nID;
-    std::string m_sName;
-    ERegion m_eRegion;
-    
-public:
-    CCountry(const std::string& sName, ERegion eRegion);
-    CCountry(const CCountry& rhs);
-    CCountry& operator=(const CCountry& rhs);
-    CCountry(CCountry &&rhs);
-    CCountry& operator=(CCountry&& rhs);
-    
-    int GetID() const;
-    const std::string& GetName() const;
-    ERegion getRegion() const;
-};
+class CWorld;
 
 class CTeam
 {
 private:
-    static std::list<CCountry> m_listCountries;
-    static std::map<int, const CCountry*> m_mapCountryByID;
-    static std::map<std::string, const CCountry*> m_mapCountryByName;
-    static std::map<ERegion, const CCountry*> m_mapCountryByRegion;
+    static int m_nNextID;
     
-    std::string m_sName;
+protected:
+    static const CWorld* m_pWorld;
+    static std::string m_sUndefined;
+    
+    int m_nID;
     int m_nPower;
+    int m_nCountryID;
     
 public:
-    static int AddCountry(const std::string& sName, ERegion eRegion);
-        
-    static const CCountry* GetCountryByName(const std::string& sName);
-    static const CCountry* GetCountryByID(int nID);
-    
-public:
-    CTeam(const std::string& sName, int nPower);
+    CTeam(int nPower, int nCountryID);
     virtual ~CTeam();
+    static void SetWorld(const CWorld* pWorld);
     
-    const std::string& GetName() const;
-    int GetPower();
+    int GetPower() const;
+    virtual const std::string& GetName() const = 0;
 };
 
 class CNational : public CTeam
 {
 private:
-    ERegion m_eRegion;
     
 public:
-    CNational(const std::string& sName, int nPower, ERegion eRegion);
+    CNational(int nPower, int nCountryID);
     
-    ERegion getRegion() const;
+    virtual const std::string& GetName() const override;
 };
 
 class CClub : public CTeam
 {
 private:
-    int m_nCountryID;
+    std::string m_sName;
     
 public:
     CClub(const std::string& sName, int nPower, int nCountryID);
-    CClub(const std::string& sName, int nPower, const std::string& sCountryName, ERegion eRegion);
+    
+    virtual const std::string& GetName() const override;
 };

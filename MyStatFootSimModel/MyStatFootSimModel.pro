@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     Model/outcomeProbabilities.cpp \
     Model/result.cpp \
     Model/calcresult.cpp \
-    Model/team.cpp
+    Model/team.cpp \
+    Model/world.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -31,4 +32,5 @@ HEADERS += \
     Model/outcomeProbabilities.h \
     Model/result.h \
     Model/calcresult.h \
-    Model/team.h
+    Model/team.h \
+    Model/world.h
