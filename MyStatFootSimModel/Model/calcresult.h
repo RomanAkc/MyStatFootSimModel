@@ -3,6 +3,8 @@
 #include <map>
 #include "result.h"
 
+extern std::mt19937 generator;
+
 typedef std::pair<CResult, CResult> CPairResult;
 
 class CCalcResult
@@ -12,8 +14,6 @@ private:
     static std::map<std::pair<int, int>, int> m_mapProbGoalDiff;
     static std::map<int, int> m_mapProbGoalDraw;
     static std::map<int, int> m_mapProbGoalLoseTeam;
-    static std::random_device rd;
-    static std::mt19937 generator;
     static std::uniform_int_distribution<> dist10000;
 
 public:    

@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     Model/result.cpp \
     Model/calcresult.cpp \
     Model/team.cpp \
-    Model/world.cpp
+    Model/world.cpp \
+    Model/tournament.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -33,4 +34,5 @@ HEADERS += \
     Model/result.h \
     Model/calcresult.h \
     Model/team.h \
-    Model/world.h
+    Model/world.h \
+    Model/tournament.h

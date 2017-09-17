@@ -63,6 +63,7 @@ ERegion CCountry::getRegion() const
 CWorld::CWorld()
 {
     CTeam::SetWorld(this);
+    CStage::SetWorld(this);
 }
 
 CWorld::~CWorld()
@@ -77,7 +78,6 @@ const CCountry* CWorld::AddCountry(const std::string& sName, ERegion eRegion)
     
     m_mapCountryByID[pCountry->GetID()] = pCountry;
     m_mapCountryByName[pCountry->GetName()] = pCountry;
-    //m_mapCountryByRegion[pCountry->getRegion()] = pCountry;
     m_mapCountryByRegion.insert ( std::make_pair(pCountry->getRegion(), pCountry) );
     
     return pCountry;

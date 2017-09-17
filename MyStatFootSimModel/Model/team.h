@@ -10,7 +10,6 @@ private:
     
 protected:
     static const CWorld* m_pWorld;
-    static std::string m_sUndefined;
     
     int m_nID;
     int m_nPower;

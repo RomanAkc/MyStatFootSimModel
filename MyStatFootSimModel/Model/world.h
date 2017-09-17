@@ -1,8 +1,10 @@
 #pragma once
+#include <random>
 #include <string>
 #include <list>
 #include <map>
 #include "team.h"
+#include "tournament.h"
 
 enum ERegion
 {
@@ -36,7 +38,7 @@ public:
 
 class CWorld
 {
-private:
+private:    
     std::list<CCountry> m_listCountries;
     std::map<int, const CCountry*> m_mapCountryByID;
     std::map<std::string, const CCountry*> m_mapCountryByName;

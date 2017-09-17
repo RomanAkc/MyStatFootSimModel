@@ -6,8 +6,6 @@ bool CCalcResult::m_bResultInited = false;
 std::map<std::pair<int, int>, int> CCalcResult::m_mapProbGoalDiff;
 std::map<int, int> CCalcResult::m_mapProbGoalDraw;
 std::map<int, int> CCalcResult::m_mapProbGoalLoseTeam;
-std::random_device CCalcResult::rd;
-std::mt19937 CCalcResult::generator(rd());
 std::uniform_int_distribution<> CCalcResult::dist10000(1, 10000);
 
 CResult CCalcResult::getResult(int nDiffPower, bool bUseHomeAway /*= true*/

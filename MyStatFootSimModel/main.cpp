@@ -6,6 +6,9 @@
 #include "Model/team.h"
 #include "Model/world.h"
 
+std::random_device rd;
+std::mt19937 generator(rd());
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);

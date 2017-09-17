@@ -4,7 +4,6 @@
 
 int CTeam::m_nNextID = 1;
 const CWorld* CTeam::m_pWorld = nullptr;
-std::string CTeam::m_sUndefined = "Undefined";
 
 void CTeam::SetWorld(const CWorld* pWorld)
 {
@@ -14,6 +13,8 @@ void CTeam::SetWorld(const CWorld* pWorld)
 CTeam::CTeam(int nPower, int nCountryID)
     : m_nID(m_nNextID++), m_nPower(nPower), m_nCountryID(nCountryID)
 {
+    if(!m_pWorld)
+        throw std::exception("m_pWorld is undefined");
 }
 
 CTeam::~CTeam()
@@ -34,15 +35,8 @@ CNational::CNational(int nPower, int nCountryID)
 }
 
 const std::string& CNational::GetName() const
-{
-    if(!m_pWorld)
-        return m_sUndefined;
-    
-    const CCountry* pCountry = m_pWorld->getCountryByID(m_nCountryID);
-    if(!pCountry)
-       return m_sUndefined;
-   
-    return pCountry->GetName();
+{       
+    return m_pWorld->getCountryByID(m_nCountryID)->GetName();
 }
 
 
